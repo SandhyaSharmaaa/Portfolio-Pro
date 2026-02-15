@@ -1,0 +1,238 @@
+@import "tailwindcss";
+
+/* ========================================
+   Design System: "Petal" — Soft Precision
+   ======================================== */
+
+:root {
+  /* Primary Pink Scale — Soft Rose (hue ~348°, sat ~45-55%) */
+  --pink-50: #FFF5F6;
+  --pink-100: #FFEAED;
+  --pink-200: #FDD4DB;
+  --pink-300: #F4B0BD;
+  --pink-400: #E08DA0;
+  --pink-500: #C96B82;
+
+  /* Background & Surface — warm, never sterile white */
+  --background: #FFFBFA;
+  --surface: #FFF5F3;
+  --foreground: #2D2A2E;
+
+  /* Text Scale — warm charcoal, not blue-gray */
+  --text-primary: #2D2A2E;
+  --text-secondary: #6E646A;
+  --text-muted: #A0959C;
+
+  /* Borders — warm tones */
+  --border: #F2EDEB;
+  --border-pink: #FDD4DB;
+
+  /* Accent Colors — softened pastels */
+  --accent-lavender: #E6D9F0;
+  --accent-peach: #F5DCC8;
+  --accent-sky: #D0E4ED;
+
+  /* Shadows (rose-tinted) */
+  --shadow-sm: 0 1px 2px rgba(45, 42, 46, 0.05);
+  --shadow-md: 0 4px 12px rgba(45, 42, 46, 0.07);
+  --shadow-lg: 0 8px 30px rgba(45, 42, 46, 0.10);
+  --shadow-glow: 0 0 40px rgba(224, 141, 160, 0.16);
+}
+
+@theme inline {
+  /* Direct hex values — var() can't be resolved at Tailwind build time */
+  --color-background: #FFFBFA;
+  --color-foreground: #2D2A2E;
+  --color-surface: #FFF5F3;
+
+  --color-pink-50: #FFF5F6;
+  --color-pink-100: #FFEAED;
+  --color-pink-200: #FDD4DB;
+  --color-pink-300: #F4B0BD;
+  --color-pink-400: #E08DA0;
+  --color-pink-500: #C96B82;
+
+  --color-text-primary: #2D2A2E;
+  --color-text-secondary: #6E646A;
+  --color-text-muted: #A0959C;
+
+  --color-border: #F2EDEB;
+  --color-border-pink: #FDD4DB;
+
+  --color-accent-lavender: #E6D9F0;
+  --color-accent-peach: #F5DCC8;
+  --color-accent-sky: #D0E4ED;
+
+  --shadow-card: 0 2px 12px rgba(45, 42, 46, 0.05);
+  --shadow-card-hover: 0 8px 30px rgba(45, 42, 46, 0.10);
+  --shadow-soft: 0 2px 8px rgba(45, 42, 46, 0.04);
+  --shadow-soft-hover: 0 4px 16px rgba(45, 42, 46, 0.10);
+
+  --font-sans: var(--font-dm-sans);
+  --font-display: var(--font-outfit);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ========================================
+   Global Styles
+   ======================================== */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Grain texture overlay for tactile depth */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ========================================
+   Lenis Smooth Scroll
+   ======================================== */
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ========================================
+   Content Visibility (Vercel best practice)
+   ======================================== */
+
+.section-offscreen {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 600px;
+}
+
+/* ========================================
+   Selection Color
+   ======================================== */
+
+::selection {
+  background-color: var(--pink-200);
+  color: var(--text-primary);
+}
+
+/* ========================================
+   Scrollbar Styling
+   ======================================== */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--pink-200);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--pink-300);
+}
+
+/* ========================================
+   Keyframe Animations
+   ======================================== */
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes border-beam {
+  from {
+    --angle: 0deg;
+  }
+  to {
+    --angle: 360deg;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes retro-grid {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(60px);
+  }
+}
+
+@keyframes aurora {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg);
+  }
+}
