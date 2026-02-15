@@ -6,10 +6,17 @@ import { RetroGrid } from "@/components/ui/retro-grid";
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { SocialIcon } from "@/components/ui/social-icon";
-import { siteConfig, socialLinks } from "@/lib/constants";
+import type { ContactProps } from "@/lib/types";
 import { Mail, ArrowUpRight } from "lucide-react";
 
-export function Contact() {
+export function Contact({
+  email,
+  heading,
+  description,
+  socialLinks,
+}: ContactProps) {
+  const headingLines = heading.split("\n");
+
   return (
     <Section
       id="contact"
@@ -29,17 +36,19 @@ export function Contact() {
           centered
           heading={
             <>
-              Let&apos;s create
-              <br />
-              something together
+              {headingLines.map((line, i) => (
+                <span key={i}>
+                  {i > 0 && <br />}
+                  {line}
+                </span>
+              ))}
             </>
           }
         />
 
         <BlurFade delay={0.3}>
           <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-text-muted">
-            I&apos;m always open to new opportunities, collaborations, or just
-            a friendly chat. Drop me a message and I&apos;ll get back to you!
+            {description}
           </p>
         </BlurFade>
 
@@ -47,7 +56,7 @@ export function Contact() {
           <div className="mt-10 flex flex-col items-center gap-4">
             <ShimmerButton
               onClick={() =>
-                window.open(`mailto:${siteConfig.email}`, "_self")
+                window.open(`mailto:${email}`, "_self")
               }
             >
               <Mail className="h-4 w-4" />
@@ -55,10 +64,10 @@ export function Contact() {
             </ShimmerButton>
 
             <a
-              href={`mailto:${siteConfig.email}`}
+              href={`mailto:${email}`}
               className="group flex items-center gap-1.5 text-sm text-text-muted transition-colors hover:text-pink-400"
             >
-              {siteConfig.email}
+              {email}
               <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </a>
           </div>

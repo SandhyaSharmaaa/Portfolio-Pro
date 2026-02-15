@@ -7,7 +7,7 @@ import { GridPattern } from "@/components/ui/grid-pattern";
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Tag } from "@/components/ui/tag";
-import { projects } from "@/lib/constants";
+import type { Project } from "@/lib/types";
 import { ExternalLink } from "lucide-react";
 
 function ProjectCard({
@@ -71,7 +71,7 @@ function ProjectCard({
   );
 }
 
-export function Projects() {
+export function Projects({ projects }: { projects: Project[] }) {
   return (
     <Section
       id="projects"

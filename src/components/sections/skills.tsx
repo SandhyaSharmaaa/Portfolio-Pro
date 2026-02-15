@@ -5,21 +5,7 @@ import { Marquee } from "@/components/ui/marquee";
 import { DotPattern } from "@/components/ui/dot-pattern";
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
-import { skills } from "@/lib/constants";
-
-const row1 = skills
-  .filter((s) => s.category === "Frontend" || s.category === "UI/UX")
-  .flatMap((s) => s.tools);
-
-const row2 = skills
-  .filter((s) => s.category === "Backend" || s.category === "Languages")
-  .flatMap((s) => s.tools);
-
-const row3 = skills
-  .filter(
-    (s) => s.category === "DevOps & Tools" || s.category === "AI & Agents",
-  )
-  .flatMap((s) => s.tools);
+import type { Skill } from "@/lib/types";
 
 function SkillPill({ name }: { name: string }) {
   return (
@@ -32,7 +18,21 @@ function SkillPill({ name }: { name: string }) {
   );
 }
 
-export function Skills() {
+export function Skills({ skills }: { skills: Skill[] }) {
+  const row1 = skills
+    .filter((s) => s.category === "Frontend" || s.category === "UI/UX")
+    .flatMap((s) => s.tools);
+
+  const row2 = skills
+    .filter((s) => s.category === "Backend" || s.category === "Languages")
+    .flatMap((s) => s.tools);
+
+  const row3 = skills
+    .filter(
+      (s) => s.category === "DevOps & Tools" || s.category === "AI & Agents",
+    )
+    .flatMap((s) => s.tools);
+
   return (
     <Section
       id="skills"

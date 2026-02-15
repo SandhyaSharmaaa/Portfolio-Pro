@@ -57,3 +57,59 @@ export interface MediumArticle {
   thumbnail: string;
   description: string;
 }
+
+// ── CMS prop types ──
+
+export interface HeroProps {
+  name: string;
+  firstName: string;
+  title: string;
+  description: string;
+  avatarUrl: string;
+  resumeUrl: string;
+  socialLinks: SocialLink[];
+}
+
+export interface AboutStat {
+  value: string;
+  label: string;
+}
+
+export interface CodeSnippet {
+  role: string;
+  fuel: string;
+  motto: string;
+}
+
+export interface CurrentlyItem {
+  text: string;
+  highlight: string;
+}
+
+export interface PersonalityPill {
+  label: string;
+  icon: string;
+  color: string;
+}
+
+export interface AboutProps {
+  heading: string;
+  paragraph1: string;
+  paragraph2: string;
+  stats: AboutStat[];
+  statusText: string;
+  statusSubtext: string;
+  roleLabel: string;
+  codeSnippet: CodeSnippet;
+  currently: CurrentlyItem[];
+  vibes: string[];
+  personalityPills: PersonalityPill[];
+}
+
+export interface ContactProps {
+  email: string;
+  heading: string;
+  description: string;
+  socialLinks: SocialLink[];
+  mediumUrl?: string;
+}

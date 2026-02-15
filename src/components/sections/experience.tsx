@@ -6,10 +6,10 @@ import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Tag } from "@/components/ui/tag";
 import { cn } from "@/lib/utils";
-import { experiences } from "@/lib/constants";
+import type { Experience as ExperienceType } from "@/lib/types";
 import { Briefcase, MapPin } from "lucide-react";
 
-export function Experience() {
+export function Experience({ experiences }: { experiences: ExperienceType[] }) {
   return (
     <Section
       id="experience"

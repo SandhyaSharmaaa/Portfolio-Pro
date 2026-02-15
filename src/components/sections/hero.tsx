@@ -4,7 +4,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { motion } from "motion/react";
 import { heroSequence } from "@/lib/animations";
-import { siteConfig, socialLinks } from "@/lib/constants";
+import type { HeroProps } from "@/lib/types";
 import { SparklesText } from "@/components/ui/sparkles-text";
 import { TextGenerate } from "@/components/ui/text-generate";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
@@ -18,7 +18,14 @@ const Particles = dynamic(
   { ssr: false },
 );
 
-export function Hero() {
+export function Hero({
+  name,
+  title,
+  description,
+  avatarUrl,
+  resumeUrl,
+  socialLinks,
+}: HeroProps) {
   return (
     <section
       id="home"
@@ -53,7 +60,7 @@ export function Hero() {
               className="font-display text-[clamp(2.5rem,7vw,4.5rem)] font-bold leading-[1.05] tracking-[-0.03em] text-text-primary"
               sparklesCount={12}
             >
-              {siteConfig.name}
+              {name}
             </SparklesText>
           </motion.div>
 
@@ -63,7 +70,7 @@ export function Hero() {
             animate="visible"
           >
             <TextGenerate
-              words={siteConfig.title}
+              words={title}
               className="font-display text-xl font-medium text-text-secondary sm:text-2xl"
               delay={0.7}
               duration={0.4}
@@ -76,7 +83,7 @@ export function Hero() {
             animate="visible"
             className="max-w-md text-base leading-relaxed text-text-muted"
           >
-            {siteConfig.description}
+            {description}
           </motion.p>
 
           <motion.div
@@ -96,7 +103,7 @@ export function Hero() {
               <ArrowDown className="h-4 w-4" />
             </ShimmerButton>
             <a
-              href="/resume.pdf"
+              href={resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 rounded-full border border-border-pink px-6 py-3 text-sm font-medium text-text-secondary transition-all duration-200 hover:border-pink-400 hover:text-pink-500"
@@ -156,8 +163,8 @@ export function Hero() {
                 }}
               >
                 <Image
-                  src="/sandhya.svg"
-                  alt={siteConfig.name}
+                  src={avatarUrl}
+                  alt={name}
                   fill
                   className="object-cover object-top drop-shadow-[0_12px_40px_rgba(224,141,160,0.25)]"
                   priority

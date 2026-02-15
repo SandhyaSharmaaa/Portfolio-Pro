@@ -2,9 +2,17 @@
 
 import { useState, useEffect } from "react";
 import { Navbar } from "@/components/ui/floating-navbar";
-import { sectionLinks } from "@/lib/constants";
+import type { SectionLink } from "@/lib/types";
 
-export function SiteNavbar() {
+export function SiteNavbar({
+  sectionLinks,
+  firstName,
+  resumeUrl,
+}: {
+  sectionLinks: SectionLink[];
+  firstName: string;
+  resumeUrl: string;
+}) {
   const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
@@ -28,7 +36,7 @@ export function SiteNavbar() {
 
   return (
     <Navbar.Root>
-      <Navbar.Logo>Sandhya</Navbar.Logo>
+      <Navbar.Logo>{firstName}</Navbar.Logo>
       <div className="hidden items-center gap-0.5 lg:flex">
         {sectionLinks.map((link) => (
           <Navbar.Link
@@ -40,7 +48,7 @@ export function SiteNavbar() {
           </Navbar.Link>
         ))}
       </div>
-      <Navbar.CTA href="/resume.pdf">Resume</Navbar.CTA>
+      <Navbar.CTA href={resumeUrl}>Resume</Navbar.CTA>
     </Navbar.Root>
   );
 }
