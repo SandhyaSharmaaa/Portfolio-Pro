@@ -24,7 +24,7 @@ export function Contact() {
     >
       <div className="relative mx-auto max-w-3xl px-6 text-center">
         <SectionHeader
-          number="05"
+          number="06"
           label="contact"
           centered
           heading={

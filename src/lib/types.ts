@@ -48,3 +48,12 @@ export interface SiteConfig {
   url: string;
   email: string;
 }
+
+export interface MediumArticle {
+  title: string;
+  link: string;
+  pubDate: string;
+  categories: string[];
+  thumbnail: string;
+  description: string;
+}

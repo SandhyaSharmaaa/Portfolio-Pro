@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm create:*)",
+      "Bash(pnpm add:*)",
+      "Bash(npx skills add vercel-labs/agent-skills)",
+      "Bash(pnpm build:*)",
+      "Bash(npx skills add:*)",
+      "WebSearch",
+      "Bash(curl:*)",
+      "Bash(gh api:*)",
+      "WebFetch(domain:www.linkedin.com)",
+      "Bash(pdftotext:*)",
+      "WebFetch(domain:magicui.design)",
+      "WebFetch(domain:ui.aceternity.com)",
+      "WebFetch(domain:www.figma.com)",
+      "WebFetch(domain:www.elegantthemes.com)",
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:coolors.co)",
+      "WebFetch(domain:bscwebdesign.at)",
+      "Bash(find:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(python3:*)",
+      "Bash(node -e:*)",
+      "WebFetch(domain:cobe.vercel.app)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(ls -la \"C:\\\\Users\\\\001ch\\\\OneDrive\\\\Desktop\\\\projects\\\\s-site\\\\src\\\\components\\\\shared\"\" 2>/dev/null || echo \"Directory check \")",
+      "Bash(echo \"Open browser DevTools > Application > Session Storage > delete ''petal-loaded'', then refresh. Or open an Incognito window.\")",
+      "WebFetch(domain:quickcoder.org)",
+      "Bash(pnpm lint:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(git status:*)",
+      "Bash(git config:*)"
+    ]
+  }
+}

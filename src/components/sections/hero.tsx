@@ -119,22 +119,22 @@ export function Hero() {
             <Ripple
               count={4}
               color="rgba(224, 141, 160, 0.1)"
-              className="absolute -inset-16"
+              className="absolute -inset-8 sm:-inset-16"
             />
 
-            {/* Orbiting decorative dots */}
-            <div className="absolute inset-0 flex items-center justify-center">
+            {/* Orbiting decorative dots — hidden on small mobile, scaled on tablet */}
+            <div className="absolute inset-0 hidden items-center justify-center sm:flex">
               <div
                 className="absolute h-3 w-3 rounded-full bg-pink-300/60 shadow-[0_0_8px_rgba(224,141,160,0.35)] animate-[orbit_8s_linear_infinite]"
-                style={{ "--orbit-radius": "160px" } as React.CSSProperties}
+                style={{ "--orbit-radius": "clamp(100px, 18vw, 160px)" } as React.CSSProperties}
               />
               <div
                 className="absolute h-2 w-2 rounded-full bg-accent-lavender/80 shadow-[0_0_6px_rgba(230,217,240,0.4)] animate-[orbit_12s_linear_infinite_reverse]"
-                style={{ "--orbit-radius": "140px" } as React.CSSProperties}
+                style={{ "--orbit-radius": "clamp(90px, 16vw, 140px)" } as React.CSSProperties}
               />
               <div
                 className="absolute h-1.5 w-1.5 rounded-full bg-accent-peach/70 animate-[orbit_10s_linear_infinite]"
-                style={{ "--orbit-radius": "180px" } as React.CSSProperties}
+                style={{ "--orbit-radius": "clamp(110px, 20vw, 180px)" } as React.CSSProperties}
               />
             </div>
 
@@ -147,7 +147,7 @@ export function Hero() {
               }}
             >
               <div
-                className="relative h-[26rem] w-80 sm:h-[32rem] sm:w-[26rem]"
+                className="relative h-[22rem] w-64 sm:h-[32rem] sm:w-[26rem]"
                 style={{
                   maskImage:
                     "linear-gradient(to bottom, black 88%, transparent 100%)",
@@ -166,8 +166,8 @@ export function Hero() {
             </motion.div>
 
             {/* Multi-layer glow behind avatar */}
-            <div className="absolute -inset-16 -z-10 rounded-full bg-[radial-gradient(circle,rgba(224,141,160,0.14)_0%,rgba(230,217,240,0.08)_35%,transparent_65%)]" />
-            <div className="absolute -inset-8 -z-10 rounded-full bg-[radial-gradient(circle,rgba(255,245,243,0.35)_0%,transparent_60%)]" />
+            <div className="absolute -inset-8 -z-10 rounded-full bg-[radial-gradient(circle,rgba(224,141,160,0.14)_0%,rgba(230,217,240,0.08)_35%,transparent_65%)] sm:-inset-16" />
+            <div className="absolute -inset-4 -z-10 rounded-full bg-[radial-gradient(circle,rgba(255,245,243,0.35)_0%,transparent_60%)] sm:-inset-8" />
           </div>
         </motion.div>
       </div>

@@ -9,7 +9,7 @@ export function SiteNavbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["home", "about", "experience", "skills", "projects", "contact"];
+      const sections = ["home", "about", "experience", "skills", "projects", "blog", "contact"];
       for (const id of sections.reverse()) {
         const el = document.getElementById(id);
         if (el) {

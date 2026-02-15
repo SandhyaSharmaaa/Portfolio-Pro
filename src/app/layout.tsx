@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit, DM_Sans, Geist_Mono } from "next/font/google";
 import { SmoothScroll } from "@/components/shared/smooth-scroll";
+import { LoadingScreen } from "@/components/shared/loading-screen";
 import "@/styles/globals.css";
 
 const outfit = Outfit({
@@ -52,7 +53,10 @@ export default function RootLayout({
       <body
         className={`${outfit.variable} ${dmSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll>
+          <LoadingScreen />
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

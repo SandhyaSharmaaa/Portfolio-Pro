@@ -236,3 +236,12 @@ html.lenis body {
     transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg);
   }
 }
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}

@@ -25,7 +25,7 @@ export function Section({
     <section
       id={id}
       className={cn(
-        "relative -mt-16 overflow-hidden py-24 lg:py-32",
+        "relative -mt-8 overflow-hidden py-16 sm:-mt-16 sm:py-24 lg:py-32",
         offscreen && "section-offscreen",
         className,
       )}
@@ -37,10 +37,10 @@ export function Section({
         />
       )}
       {blendTop && (
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-background to-transparent sm:h-32" />
       )}
       {blendBottom && (
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent sm:h-32" />
       )}
       {children}
     </section>

@@ -61,7 +61,7 @@ export function About() {
 
           {/* Stats */}
           <BlurFade delay={0.7}>
-            <div className="flex gap-8 pt-4">
+            <div className="flex gap-6 pt-4 sm:gap-8">
               <div className="flex flex-col">
                 <NumberTicker
                   value={7}
@@ -94,9 +94,9 @@ export function About() {
             <div className="grid grid-cols-2 gap-3">
               {/* Status */}
               <BentoCell className="col-span-2" delay={0}>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-50">
                       <div className="h-2.5 w-2.5 animate-pulse rounded-full bg-emerald-400" />
                     </div>
                     <div>
@@ -104,7 +104,7 @@ export function About() {
                       <p className="text-[11px] text-text-muted">Open to full-time roles</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-text-muted">
+                  <div className="hidden items-center gap-1 text-xs text-text-muted sm:flex">
                     <Terminal className="h-3 w-3" />
                     Frontend Engineer
                   </div>
@@ -193,7 +193,7 @@ export function About() {
             </div>
 
             {/* Glow behind bento */}
-            <div className="absolute -inset-6 -z-10 rounded-3xl bg-[radial-gradient(ellipse_at_center,rgba(45,42,46,0.04),transparent_70%)]" />
+            <div className="absolute -inset-2 -z-10 rounded-3xl bg-[radial-gradient(ellipse_at_center,rgba(45,42,46,0.04),transparent_70%)] sm:-inset-6" />
           </div>
         </BlurFade>
       </div>
