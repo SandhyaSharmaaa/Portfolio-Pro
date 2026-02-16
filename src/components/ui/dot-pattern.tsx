@@ -12,8 +12,8 @@ export function DotPattern({
   className,
   gapX = 24,
   gapY = 24,
-  dotSize = 1,
-  color = "rgba(45, 42, 46, 0.08)",
+  dotSize = 1.2,
+  color = "rgba(45, 42, 46, 0.15)",
 }: DotPatternProps) {
   return (
     <svg

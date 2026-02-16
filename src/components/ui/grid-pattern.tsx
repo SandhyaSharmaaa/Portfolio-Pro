@@ -10,8 +10,8 @@ interface GridPatternProps {
 export function GridPattern({
   className,
   cellSize = 64,
-  strokeWidth = 0.5,
-  color = "rgba(45, 42, 46, 0.06)",
+  strokeWidth = 0.6,
+  color = "rgba(45, 42, 46, 0.12)",
 }: GridPatternProps) {
   return (
     <svg

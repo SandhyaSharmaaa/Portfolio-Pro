@@ -76,8 +76,8 @@ export function Projects({ projects }: { projects: Project[] }) {
     <Section
       id="projects"
       offscreen
-      pattern={<GridPattern cellSize={80} strokeWidth={0.3} />}
-      tintClassName="bg-gradient-to-b from-surface/70 via-transparent to-surface/70"
+      pattern={<GridPattern cellSize={72} strokeWidth={0.6} />}
+      tintClassName="bg-gradient-to-b from-surface/40 via-transparent to-surface/40"
     >
       <div className="relative mx-auto max-w-6xl px-6">
         <SectionHeader

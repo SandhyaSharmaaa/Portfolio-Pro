@@ -37,8 +37,8 @@ export function Skills({ skills }: { skills: Skill[] }) {
     <Section
       id="skills"
       offscreen
-      pattern={<DotPattern gapX={32} gapY={32} dotSize={0.8} />}
-      tintClassName="bg-gradient-to-b from-surface/50 via-surface/20 to-surface/40"
+      pattern={<DotPattern gapX={28} gapY={28} dotSize={1.2} />}
+      tintClassName="bg-gradient-to-b from-surface/30 via-transparent to-surface/20"
     >
       <div className="relative mx-auto max-w-6xl px-6">
         <SectionHeader

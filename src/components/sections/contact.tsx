@@ -23,7 +23,7 @@ export function Contact({
       offscreen
       pattern={
         <>
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-surface/40 via-surface/20 to-accent-lavender/20" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-surface/20 via-transparent to-accent-lavender/15" />
           <RetroGrid />
         </>
       }

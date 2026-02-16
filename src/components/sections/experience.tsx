@@ -14,8 +14,8 @@ export function Experience({ experiences }: { experiences: ExperienceType[] }) {
     <Section
       id="experience"
       offscreen
-      pattern={<GridPattern cellSize={48} strokeWidth={0.4} />}
-      tintClassName="bg-gradient-to-b from-surface/80 via-transparent to-surface/80"
+      pattern={<GridPattern cellSize={48} strokeWidth={0.7} />}
+      tintClassName="bg-gradient-to-b from-surface/40 via-transparent to-surface/40"
     >
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeader

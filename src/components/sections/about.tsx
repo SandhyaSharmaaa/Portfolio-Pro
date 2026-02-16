@@ -52,8 +52,8 @@ export function About({
   return (
     <Section
       id="about"
-      pattern={<DotPattern />}
-      tintClassName="bg-gradient-to-b from-surface/60 via-surface/30 to-surface/40"
+      pattern={<DotPattern dotSize={1.4} />}
+      tintClassName="bg-gradient-to-b from-surface/40 via-transparent to-surface/20"
     >
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-12 px-6 lg:grid-cols-[1.1fr_0.9fr]">
         {/* Left: Text */}

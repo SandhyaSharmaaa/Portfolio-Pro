@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Outfit, DM_Sans, Geist_Mono } from "next/font/google";
 import { SmoothScroll } from "@/components/shared/smooth-scroll";
 import { LoadingScreen } from "@/components/shared/loading-screen";
+import { LazyCursor } from "@/components/ui/lazy-cursor";
 import "@/styles/globals.css";
 
 const outfit = Outfit({
@@ -137,6 +138,7 @@ export default function SiteLayout({
         className={`${outfit.variable} ${dmSans.variable} ${geistMono.variable} antialiased`}
       >
         <SmoothScroll>
+          <LazyCursor />
           <LoadingScreen />
           {children}
         </SmoothScroll>
