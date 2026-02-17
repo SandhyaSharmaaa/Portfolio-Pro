@@ -48,6 +48,7 @@ export function SiteNavbar({
           </Navbar.Link>
         ))}
       </div>
+      <Navbar.Mobile links={sectionLinks} activeSection={activeSection} />
       <Navbar.CTA href={resumeUrl}>Resume</Navbar.CTA>
     </Navbar.Root>
   );

@@ -18,7 +18,7 @@ export function BoxReveal({
   children,
   className,
   boxColor = "#E08DA0",
-  duration = 0.5,
+  duration = 0.6,
   delay = 0,
   once = true,
   width = "100%",
@@ -32,27 +32,33 @@ export function BoxReveal({
       className={cn("relative overflow-hidden", className)}
       style={{ width }}
     >
+      {/* Content — fades in at the midpoint of the bar animation */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.01, delay: delay + duration * 0.6 }}
+        transition={{ duration: 0.05, delay: delay + duration * 0.5 }}
       >
         {children}
       </motion.div>
+
+      {/* Sliding bar — enters from left, exits to right */}
       <motion.div
-        className="absolute inset-0"
-        style={{ transformOrigin: "left", background: boxColor }}
-        initial={{ left: 0 }}
+        className="absolute inset-y-0"
+        style={{ background: boxColor, borderRadius: 2 }}
+        initial={{ left: "0%", right: "100%" }}
         animate={
           isInView
-            ? { left: "0%", right: "0%", scaleX: [0, 1, 1, 0] }
-            : { scaleX: 0 }
+            ? {
+                left: ["0%", "0%", "100%"],
+                right: ["100%", "0%", "0%"],
+              }
+            : { left: "0%", right: "100%" }
         }
         transition={{
           duration,
           delay,
-          ease: [0.76, 0, 0.24, 1],
-          times: [0, 0.45, 0.55, 1],
+          ease: [0.65, 0, 0.35, 1],
+          times: [0, 0.5, 1],
         }}
       />
     </div>

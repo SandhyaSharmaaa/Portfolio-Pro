@@ -76,13 +76,13 @@ export function About({
           </BlurFade>
 
           <div className="flex flex-col gap-4">
-            <BoxReveal delay={0.3} duration={0.5}>
+            <BoxReveal delay={0.3} duration={0.6}>
               <p className="text-base leading-relaxed text-text-secondary">
                 {paragraph1}
               </p>
             </BoxReveal>
 
-            <BoxReveal delay={0.5} duration={0.5}>
+            <BoxReveal delay={0.5} duration={0.6}>
               <p className="text-base leading-relaxed text-text-secondary">
                 {paragraph2}
               </p>

@@ -54,14 +54,12 @@ export function Contact({
 
         <BlurFade delay={0.4}>
           <div className="mt-10 flex flex-col items-center gap-4">
-            <ShimmerButton
-              onClick={() =>
-                window.open(`mailto:${email}`, "_self")
-              }
-            >
-              <Mail className="h-4 w-4" />
-              Say Hello
-            </ShimmerButton>
+            <a href={`mailto:${email}`}>
+              <ShimmerButton>
+                <Mail className="h-4 w-4" />
+                Say Hello
+              </ShimmerButton>
+            </a>
 
             <a
               href={`mailto:${email}`}
