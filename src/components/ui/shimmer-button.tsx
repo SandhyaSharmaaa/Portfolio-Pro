@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useSoundEffect } from "@/hooks/use-sound-effect";
 
 interface ShimmerButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -21,10 +22,17 @@ export function ShimmerButton({
   background = "linear-gradient(135deg, #E08DA0, #C96B82)",
   children,
   className,
+  onClick,
   ...props
 }: ShimmerButtonProps) {
+  const [playPop] = useSoundEffect("/sounds/pop.wav", { volume: 0.5 });
+
   return (
     <button
+      onClick={(e) => {
+        playPop();
+        onClick?.(e);
+      }}
       style={
         {
           "--shimmer-color": shimmerColor,

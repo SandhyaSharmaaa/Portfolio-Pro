@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef, useCallback, useSyncExternalStore } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 
 function getIsDesktop() {
@@ -19,79 +19,115 @@ function subscribe(callback: () => void) {
   return () => mql.removeEventListener("change", callback);
 }
 
+type CursorVariant = "default" | "text" | "link" | "card" | "image";
+
+const CURSOR_STYLES: Record<
+  CursorVariant,
+  { size: number; borderRadius: number; opacity: number; border: string; bg: string; blend: string }
+> = {
+  default: { size: 20, borderRadius: 10, opacity: 1, border: "2px solid rgba(224,141,160,0.6)", bg: "rgba(224,141,160,0.1)", blend: "normal" },
+  text: { size: 48, borderRadius: 24, opacity: 0.6, border: "1.5px solid rgba(224,141,160,0.3)", bg: "rgba(224,141,160,0.06)", blend: "difference" },
+  link: { size: 12, borderRadius: 6, opacity: 1, border: "none", bg: "rgba(224,141,160,0.8)", blend: "normal" },
+  card: { size: 36, borderRadius: 18, opacity: 0.7, border: "1.5px solid rgba(224,141,160,0.4)", bg: "rgba(224,141,160,0.08)", blend: "normal" },
+  image: { size: 300, borderRadius: 8, opacity: 1, border: "none", bg: "transparent", blend: "normal" },
+};
+
+function getCursorVariant(el: HTMLElement): CursorVariant | null {
+  // Check for explicit data-cursor attribute first
+  const explicit = el.closest("[data-cursor]");
+  if (explicit) {
+    const val = explicit.getAttribute("data-cursor") as CursorVariant;
+    if (val in CURSOR_STYLES) return val;
+  }
+
+  // Check for data-cursor-image (existing behavior)
+  if (el.closest("[data-cursor-image]")) return "image";
+
+  // Auto-detect: links and buttons
+  if (el.closest("a, button")) return "link";
+
+  // Auto-detect: readable text content in sections
+  if (el.closest("p, h1, h2, h3, h4, h5, h6, blockquote, li")) {
+    // Only within main content sections, not nav/footer chrome
+    if (el.closest("section, [role='main'], main")) return "text";
+  }
+
+  return null;
+}
+
 export function CustomCursor() {
   const isDesktop = useSyncExternalStore(subscribe, getIsDesktop, () => false);
   const cursorX = useMotionValue(0);
   const cursorY = useMotionValue(0);
-  const springX = useSpring(cursorX, { damping: 25, stiffness: 200 });
-  const springY = useSpring(cursorY, { damping: 25, stiffness: 200 });
-  const hoverImageRef = useRef<string | null>(null);
-  const imageElRef = useRef<HTMLImageElement>(null);
-  const dotElRef = useRef<HTMLDivElement>(null);
+  const springX = useSpring(cursorX, { damping: 30, stiffness: 400, mass: 0.2 });
+  const springY = useSpring(cursorY, { damping: 30, stiffness: 400, mass: 0.2 });
   const containerRef = useRef<HTMLDivElement>(null);
-  const rafRef = useRef<number>(0);
+  const dotElRef = useRef<HTMLDivElement>(null);
+  const imageElRef = useRef<HTMLImageElement>(null);
+  const currentVariant = useRef<CursorVariant>("default");
+
+  const applyVariant = useCallback((variant: CursorVariant, imageUrl?: string) => {
+    if (variant === currentVariant.current && variant !== "image") return;
+    currentVariant.current = variant;
+
+    const container = containerRef.current;
+    const dot = dotElRef.current;
+    const img = imageElRef.current;
+    if (!container || !dot || !img) return;
+
+    const style = CURSOR_STYLES[variant];
+
+    if (variant === "image" && imageUrl) {
+      img.src = imageUrl;
+      img.style.display = "block";
+      dot.style.display = "none";
+      container.style.width = "300px";
+      container.style.height = "180px";
+      container.style.borderRadius = "8px";
+      container.style.opacity = "1";
+      container.style.mixBlendMode = "normal";
+      return;
+    }
+
+    img.style.display = "none";
+    dot.style.display = "block";
+    container.style.width = `${style.size}px`;
+    container.style.height = `${style.size}px`;
+    container.style.borderRadius = `${style.borderRadius}px`;
+    container.style.opacity = String(style.opacity);
+    container.style.mixBlendMode = style.blend;
+    dot.style.border = style.border;
+    dot.style.background = style.bg;
+  }, []);
 
   useEffect(() => {
     if (!isDesktop) return;
 
-    // Hide default cursor on desktop
     document.body.style.cursor = "none";
 
     function onMouseMove(e: MouseEvent) {
-      cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(() => {
-        cursorX.set(e.clientX);
-        cursorY.set(e.clientY);
-      });
-    }
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
 
-    function onMouseEnterBox(e: Event) {
-      const target = e.currentTarget as HTMLElement;
-      const image = target.getAttribute("data-cursor-image");
-      if (image) {
-        hoverImageRef.current = image;
-        if (imageElRef.current) {
-          imageElRef.current.src = image;
-          imageElRef.current.style.display = "block";
-        }
-        if (dotElRef.current) dotElRef.current.style.display = "none";
-        if (containerRef.current) {
-          containerRef.current.style.width = "300px";
-          containerRef.current.style.height = "180px";
-          containerRef.current.style.borderRadius = "8px";
-        }
-      }
-    }
+      const target = e.target as HTMLElement;
+      const variant = getCursorVariant(target);
 
-    function onMouseLeaveBox() {
-      hoverImageRef.current = null;
-      if (imageElRef.current) imageElRef.current.style.display = "none";
-      if (dotElRef.current) dotElRef.current.style.display = "block";
-      if (containerRef.current) {
-        containerRef.current.style.width = "20px";
-        containerRef.current.style.height = "20px";
-        containerRef.current.style.borderRadius = "10px";
+      if (variant === "image") {
+        const imageEl = target.closest("[data-cursor-image]");
+        const imageUrl = imageEl?.getAttribute("data-cursor-image") || "";
+        applyVariant("image", imageUrl);
+      } else {
+        applyVariant(variant || "default");
       }
     }
 
     window.addEventListener("mousemove", onMouseMove);
 
-    const boxes = document.querySelectorAll("[data-cursor-image]");
-    boxes.forEach((box) => {
-      box.addEventListener("mouseenter", onMouseEnterBox);
-      box.addEventListener("mouseleave", onMouseLeaveBox);
-    });
-
     return () => {
       document.body.style.cursor = "";
       window.removeEventListener("mousemove", onMouseMove);
-      cancelAnimationFrame(rafRef.current);
-      boxes.forEach((box) => {
-        box.removeEventListener("mouseenter", onMouseEnterBox);
-        box.removeEventListener("mouseleave", onMouseLeaveBox);
-      });
     };
-  }, [isDesktop, cursorX, cursorY]);
+  }, [isDesktop, cursorX, cursorY, applyVariant]);
 
   if (!isDesktop) return null;
 
@@ -115,7 +151,11 @@ export function CustomCursor() {
         />
         <div
           ref={dotElRef}
-          className="h-full w-full rounded-full border-2 border-pink-400/60 bg-pink-400/10"
+          className="h-full w-full rounded-full"
+          style={{
+            border: "2px solid rgba(224,141,160,0.6)",
+            background: "rgba(224,141,160,0.1)",
+          }}
         />
       </div>
     </motion.div>

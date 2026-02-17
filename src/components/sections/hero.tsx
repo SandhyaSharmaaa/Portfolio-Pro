@@ -11,6 +11,7 @@ import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { Dock } from "@/components/ui/dock";
 import { Ripple } from "@/components/ui/ripple";
 import { SocialIcon } from "@/components/ui/social-icon";
+import { useSoundEffect } from "@/hooks/use-sound-effect";
 import { ArrowDown, ExternalLink } from "lucide-react";
 
 const Particles = dynamic(
@@ -26,6 +27,9 @@ export function Hero({
   resumeUrl,
   socialLinks,
 }: HeroProps) {
+  const [playPop] = useSoundEffect("/sounds/pop.wav", { volume: 0.4 });
+  const [playTick] = useSoundEffect("/sounds/tick.wav", { volume: 0.3 });
+
   return (
     <section
       id="home"
@@ -106,6 +110,7 @@ export function Hero({
               href={resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => playPop()}
               className="flex items-center gap-2 rounded-full border border-border-pink px-6 py-3 text-sm font-medium text-text-secondary transition-all duration-200 hover:border-pink-400 hover:text-pink-500"
             >
               Resume
@@ -189,7 +194,7 @@ export function Hero({
           initial="hidden"
           animate="visible"
         >
-          <Dock magnification={50} distance={120}>
+          <Dock magnification={50} distance={120} onIconHover={playTick}>
             {socialLinks.map((link) => (
               <a
                 key={link.platform}

@@ -3,6 +3,8 @@ import { Outfit, DM_Sans, Geist_Mono } from "next/font/google";
 import { SmoothScroll } from "@/components/shared/smooth-scroll";
 import { LoadingScreen } from "@/components/shared/loading-screen";
 import { LazyCursor } from "@/components/ui/lazy-cursor";
+import { SoundProvider } from "@/contexts/sound-context";
+import { SoundToggle } from "@/components/ui/sound-toggle";
 import "@/styles/globals.css";
 
 const outfit = Outfit({
@@ -137,11 +139,14 @@ export default function SiteLayout({
       <body
         className={`${outfit.variable} ${dmSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SmoothScroll>
-          <LazyCursor />
-          <LoadingScreen />
-          {children}
-        </SmoothScroll>
+        <SoundProvider>
+          <SmoothScroll>
+            <LazyCursor />
+            <LoadingScreen />
+            {children}
+          </SmoothScroll>
+          <SoundToggle />
+        </SoundProvider>
       </body>
     </html>
   );

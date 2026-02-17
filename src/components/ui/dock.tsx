@@ -9,6 +9,8 @@ interface DockProps {
   className?: string;
   magnification?: number;
   distance?: number;
+  direction?: "horizontal" | "vertical";
+  onIconHover?: () => void;
 }
 
 export function Dock({
@@ -16,15 +18,21 @@ export function Dock({
   className,
   magnification = 60,
   distance = 140,
+  direction = "horizontal",
+  onIconHover,
 }: DockProps) {
-  const mouseX = useMotionValue(Infinity);
+  const mousePos = useMotionValue(Infinity);
 
   return (
     <motion.div
-      onMouseMove={(e) => mouseX.set(e.pageX)}
-      onMouseLeave={() => mouseX.set(Infinity)}
+      onMouseMove={(e) =>
+        mousePos.set(direction === "horizontal" ? e.clientX : e.clientY)
+      }
+      onMouseLeave={() => mousePos.set(Infinity)}
       className={cn(
-        "flex h-14 items-end gap-3 rounded-full border border-border/60 bg-white/80 px-4 pb-2.5 backdrop-blur-xl",
+        direction === "horizontal"
+          ? "flex h-14 items-end gap-3 rounded-full border border-border/60 bg-white/80 px-4 pb-2.5 backdrop-blur-xl"
+          : "flex flex-col items-center gap-1 rounded-full border border-border/60 bg-white/80 px-2 py-3 backdrop-blur-xl",
         "shadow-[0_2px_20px_rgba(0,0,0,0.05)]",
         className,
       )}
@@ -33,9 +41,11 @@ export function Dock({
         ? children.map((child, i) => (
             <DockIcon
               key={i}
-              mouseX={mouseX}
+              mousePos={mousePos}
               magnification={magnification}
               distance={distance}
+              direction={direction}
+              onMouseEnter={onIconHover}
             >
               {child}
             </DockIcon>
@@ -47,32 +57,39 @@ export function Dock({
 
 interface DockIconProps {
   children: React.ReactNode;
-  mouseX: ReturnType<typeof useMotionValue<number>>;
+  mousePos: ReturnType<typeof useMotionValue<number>>;
   magnification: number;
   distance: number;
+  direction: "horizontal" | "vertical";
+  onMouseEnter?: () => void;
 }
 
 function DockIcon({
   children,
-  mouseX,
+  mousePos,
   magnification,
   distance,
+  direction,
+  onMouseEnter,
 }: DockIconProps) {
   const ref = useRef<HTMLDivElement>(null);
 
-  const distanceCalc = useTransform(mouseX, (val: number) => {
+  const distanceCalc = useTransform(mousePos, (val: number) => {
     const el = ref.current;
     if (!el) return distance;
     const rect = el.getBoundingClientRect();
-    return val - rect.x - rect.width / 2;
+    if (direction === "horizontal") {
+      return val - rect.x - rect.width / 2;
+    }
+    return val - rect.y - rect.height / 2;
   });
 
-  const widthSync = useTransform(
+  const sizeSync = useTransform(
     distanceCalc,
     [-distance, 0, distance],
     [36, magnification, 36],
   );
-  const width = useSpring(widthSync, {
+  const size = useSpring(sizeSync, {
     mass: 0.1,
     stiffness: 150,
     damping: 12,
@@ -81,7 +98,12 @@ function DockIcon({
   return (
     <motion.div
       ref={ref}
-      style={{ width }}
+      style={
+        direction === "horizontal"
+          ? { width: size }
+          : { height: size, width: size }
+      }
+      onMouseEnter={onMouseEnter}
       className="flex aspect-square items-center justify-center rounded-full"
     >
       {children}

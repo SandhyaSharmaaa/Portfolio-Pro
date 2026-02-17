@@ -5,6 +5,7 @@ import { BoxReveal } from "@/components/ui/box-reveal";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { DotPattern } from "@/components/ui/dot-pattern";
 import { Section } from "@/components/ui/section";
+import { useSoundEffect } from "@/hooks/use-sound-effect";
 import type { AboutProps } from "@/lib/types";
 import {
   Heart,
@@ -47,6 +48,7 @@ export function About({
   vibes,
   personalityPills,
 }: AboutProps) {
+  const [playHover] = useSoundEffect("/sounds/hover.wav", { volume: 0.2 });
   const headingLines = heading.split("\n");
 
   return (
@@ -123,7 +125,7 @@ export function About({
           <div className="relative -mt-4 lg:mt-8">
             <div className="grid grid-cols-2 gap-3">
               {/* Status */}
-              <BentoCell className="col-span-2" delay={0}>
+              <BentoCell className="col-span-2" delay={0} onHover={playHover}>
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-50">
@@ -142,7 +144,7 @@ export function About({
               </BentoCell>
 
               {/* Code snippet */}
-              <BentoCell className="col-span-2" delay={0.1}>
+              <BentoCell className="col-span-2" delay={0.1} onHover={playHover}>
                 <div className="flex items-center gap-2 pb-2">
                   <Terminal className="h-3.5 w-3.5 text-pink-400" />
                   <span className="text-[11px] font-medium text-text-muted">~/sandhya</span>
@@ -166,7 +168,7 @@ export function About({
               </BentoCell>
 
               {/* Currently */}
-              <BentoCell delay={0.2}>
+              <BentoCell delay={0.2} onHover={playHover}>
                 <div className="flex flex-col gap-2.5">
                   <div className="flex items-center gap-1.5">
                     <Rocket className="h-3.5 w-3.5 text-pink-400" />
@@ -183,7 +185,7 @@ export function About({
               </BentoCell>
 
               {/* Vibes */}
-              <BentoCell delay={0.25}>
+              <BentoCell delay={0.25} onHover={playHover}>
                 <div className="flex flex-col gap-2.5">
                   <div className="flex items-center gap-1.5">
                     <Headphones className="h-3.5 w-3.5 text-pink-400" />
@@ -200,7 +202,7 @@ export function About({
               </BentoCell>
 
               {/* Personality pills */}
-              <BentoCell className="col-span-2" delay={0.3}>
+              <BentoCell className="col-span-2" delay={0.3} onHover={playHover}>
                 <div className="flex flex-wrap gap-2">
                   {personalityPills.map((pill) => {
                     const Icon = iconMap[pill.icon] || Sparkles;
@@ -231,13 +233,16 @@ function BentoCell({
   children,
   className = "",
   delay = 0,
+  onHover,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  onHover?: () => void;
 }) {
   return (
     <div
+      onMouseEnter={onHover ? () => onHover() : undefined}
       className={`group rounded-xl border border-border/60 bg-gradient-to-br from-white/90 to-surface/40 p-4 shadow-[0_2px_10px_rgba(0,0,0,0.03)] backdrop-blur-sm transition-all duration-300 hover:border-pink-200/60 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] ${className}`}
       style={{ animationDelay: `${delay}s` }}
     >

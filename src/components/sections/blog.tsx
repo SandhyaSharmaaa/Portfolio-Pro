@@ -5,6 +5,7 @@ import { BlurFade } from "@/components/ui/blur-fade";
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Tag } from "@/components/ui/tag";
+import { useSoundEffect } from "@/hooks/use-sound-effect";
 import type { MediumArticle } from "@/lib/types";
 import { ArrowUpRight, Calendar, Clock, ExternalLink } from "lucide-react";
 
@@ -25,13 +26,14 @@ function estimateReadTime(text: string): string {
 
 /* ─── Featured Article: cinematic hero card ─── */
 
-function FeaturedArticle({ article }: { article: MediumArticle }) {
+function FeaturedArticle({ article, onHover }: { article: MediumArticle; onHover?: () => void }) {
   return (
     <BlurFade delay={0.15}>
       <a
         href={article.link}
         target="_blank"
         rel="noopener noreferrer"
+        onMouseEnter={onHover ? () => onHover() : undefined}
         className="group relative block overflow-hidden rounded-2xl border border-border/40"
       >
         {/* Thumbnail / gradient fallback */}
@@ -102,9 +104,11 @@ function FeaturedArticle({ article }: { article: MediumArticle }) {
 function ArticleRow({
   article,
   index,
+  onHover,
 }: {
   article: MediumArticle;
   index: number;
+  onHover?: () => void;
 }) {
   return (
     <BlurFade delay={0.2 + index * 0.07}>
@@ -112,6 +116,7 @@ function ArticleRow({
         href={article.link}
         target="_blank"
         rel="noopener noreferrer"
+        onMouseEnter={onHover ? () => onHover() : undefined}
         className="group relative flex items-start gap-4 border-b border-border/50 px-2 py-5 transition-colors last:border-b-0 hover:bg-pink-50/40 sm:gap-6 sm:px-4"
       >
         {/* Accent line — fills pink on hover */}
@@ -157,6 +162,8 @@ function ArticleRow({
 /* ─── Blog Section ─── */
 
 export function Blog({ articles }: { articles: MediumArticle[] }) {
+  const [playHover] = useSoundEffect("/sounds/hover.wav", { volume: 0.25 });
+
   if (articles.length === 0) return null;
 
   const [featured, ...rest] = articles;
@@ -177,14 +184,14 @@ export function Blog({ articles }: { articles: MediumArticle[] }) {
 
         {/* Featured article — cinematic hero */}
         <div className="mt-12">
-          <FeaturedArticle article={featured} />
+          <FeaturedArticle article={featured} onHover={playHover} />
         </div>
 
         {/* Article index — editorial list */}
         {rest.length > 0 && (
           <div className="mt-6 overflow-hidden rounded-2xl border border-border/50 bg-white/60 backdrop-blur-sm">
             {rest.map((article, i) => (
-              <ArticleRow key={article.link} article={article} index={i} />
+              <ArticleRow key={article.link} article={article} index={i} onHover={playHover} />
             ))}
           </div>
         )}

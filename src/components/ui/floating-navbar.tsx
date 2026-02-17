@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { Sparkles, Menu, X } from "lucide-react";
+import { useSoundEffect } from "@/hooks/use-sound-effect";
 import type { SectionLink } from "@/lib/types";
 
 interface NavbarRootProps {
@@ -59,9 +60,14 @@ interface NavbarLinkProps {
 }
 
 function NavbarLink({ href, children, active, className }: NavbarLinkProps) {
+  const [playHover] = useSoundEffect("/sounds/hover.wav", { volume: 0.3 });
+  const [playTick] = useSoundEffect("/sounds/tick.wav", { volume: 0.4 });
+
   return (
     <a
       href={href}
+      onMouseEnter={() => playHover()}
+      onClick={() => playTick()}
       className={cn(
         "relative rounded-xl px-3.5 py-2 text-[13px] font-medium transition-all duration-200",
         active ? "text-pink-500" : "text-text-muted hover:text-text-primary",
@@ -133,6 +139,9 @@ interface NavbarMobileProps {
 function NavbarMobile({ links, activeSection }: NavbarMobileProps) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [playSwitchOn] = useSoundEffect("/sounds/switch-on.wav", { volume: 0.4 });
+  const [playSwitchOff] = useSoundEffect("/sounds/switch-off.wav", { volume: 0.4 });
+  const [playTick] = useSoundEffect("/sounds/tick.wav", { volume: 0.4 });
 
   useEffect(() => setMounted(true), []);
 
@@ -178,7 +187,10 @@ function NavbarMobile({ links, activeSection }: NavbarMobileProps) {
 
             {/* Close button */}
             <motion.button
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                playSwitchOff();
+                setOpen(false);
+              }}
               aria-label="Close menu"
               initial={{ opacity: 0, rotate: -90 }}
               animate={{ opacity: 1, rotate: 0 }}
@@ -199,7 +211,10 @@ function NavbarMobile({ links, activeSection }: NavbarMobileProps) {
                   <motion.a
                     key={link.href}
                     href={link.href}
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      playTick();
+                      setOpen(false);
+                    }}
                     initial={{ opacity: 0, x: -40 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
@@ -279,7 +294,13 @@ function NavbarMobile({ links, activeSection }: NavbarMobileProps) {
   return (
     <div className="lg:hidden">
       <button
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          setOpen((v) => {
+            if (!v) playSwitchOn();
+            else playSwitchOff();
+            return !v;
+          });
+        }}
         aria-label="Open menu"
         className="flex h-9 w-9 items-center justify-center rounded-xl bg-pink-50 text-pink-500 transition-colors hover:bg-pink-100"
       >

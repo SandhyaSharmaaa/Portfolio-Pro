@@ -5,11 +5,14 @@ import { GridPattern } from "@/components/ui/grid-pattern";
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Tag } from "@/components/ui/tag";
+import { useSoundEffect } from "@/hooks/use-sound-effect";
 import { cn } from "@/lib/utils";
 import type { Experience as ExperienceType } from "@/lib/types";
 import { Briefcase, MapPin } from "lucide-react";
 
 export function Experience({ experiences }: { experiences: ExperienceType[] }) {
+  const [playHover] = useSoundEffect("/sounds/hover.wav", { volume: 0.25 });
+
   return (
     <Section
       id="experience"
@@ -40,6 +43,7 @@ export function Experience({ experiences }: { experiences: ExperienceType[] }) {
           {experiences.map((exp, i) => (
             <BlurFade key={`${exp.company}-${exp.role}`} delay={0.3 + i * 0.15}>
               <div
+                onMouseEnter={() => playHover()}
                 className={cn(
                   "group relative lg:w-[calc(50%-1.5rem)]",
                   i % 2 === 0 ? "lg:mr-auto" : "lg:ml-auto",

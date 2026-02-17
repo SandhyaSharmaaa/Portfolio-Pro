@@ -7,6 +7,7 @@ import { GridPattern } from "@/components/ui/grid-pattern";
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Tag } from "@/components/ui/tag";
+import { useSoundEffect } from "@/hooks/use-sound-effect";
 import type { Project } from "@/lib/types";
 import { ExternalLink } from "lucide-react";
 
@@ -17,6 +18,7 @@ function ProjectCard({
   url,
   image,
   index,
+  onHover,
 }: {
   title: string;
   description: string;
@@ -24,6 +26,7 @@ function ProjectCard({
   url: string;
   image: string;
   index: number;
+  onHover?: () => void;
 }) {
   return (
     <BlurFade delay={0.1 + index * 0.1}>
@@ -32,6 +35,7 @@ function ProjectCard({
           href={url}
           target="_blank"
           rel="noopener noreferrer"
+          onMouseEnter={onHover ? () => onHover() : undefined}
           className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-br from-white to-surface/30 shadow-card backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-pink-200 hover:shadow-card-hover"
         >
           {/* Image */}
@@ -72,6 +76,8 @@ function ProjectCard({
 }
 
 export function Projects({ projects }: { projects: Project[] }) {
+  const [playHover] = useSoundEffect("/sounds/hover.wav", { volume: 0.25 });
+
   return (
     <Section
       id="projects"
@@ -103,6 +109,7 @@ export function Projects({ projects }: { projects: Project[] }) {
               url={project.url}
               image={project.image}
               index={i}
+              onHover={playHover}
             />
           ))}
         </div>

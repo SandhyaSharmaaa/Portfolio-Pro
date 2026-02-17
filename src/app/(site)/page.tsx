@@ -7,6 +7,7 @@ import { Projects } from "@/components/sections/projects";
 import { Blog } from "@/components/sections/blog";
 import { Contact } from "@/components/sections/contact";
 import { Footer } from "@/components/layout/footer";
+import { FixedSocialDock } from "@/components/ui/fixed-social-dock";
 import {
   PersonSchema,
   WebSiteSchema,
@@ -191,6 +192,7 @@ export default async function Home() {
         firstName={heroProps.firstName}
         resumeUrl={heroProps.resumeUrl}
       />
+      <FixedSocialDock links={socialLinks} />
       <main className="relative">
         <Hero {...heroProps} />
         <About {...aboutProps} />
