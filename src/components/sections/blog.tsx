@@ -162,7 +162,7 @@ function ArticleRow({
 /* ─── Blog Section ─── */
 
 export function Blog({ articles }: { articles: MediumArticle[] }) {
-  const [playHover] = useSoundEffect("/sounds/hover.wav", { volume: 0.25 });
+  const [playHover] = useSoundEffect("/sounds/hover-card.wav", { volume: 0.3 });
 
   if (articles.length === 0) return null;
 

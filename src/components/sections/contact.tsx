@@ -6,6 +6,7 @@ import { RetroGrid } from "@/components/ui/retro-grid";
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { SocialIcon } from "@/components/ui/social-icon";
+import { useSoundEffect } from "@/hooks/use-sound-effect";
 import type { ContactProps } from "@/lib/types";
 import { Mail, ArrowUpRight } from "lucide-react";
 
@@ -15,6 +16,9 @@ export function Contact({
   description,
   socialLinks,
 }: ContactProps) {
+  const [playHover] = useSoundEffect("/sounds/tap-soft.wav", { volume: 0.7 });
+  const [playClick] = useSoundEffect("/sounds/button.wav", { volume: 0.5 });
+  const [playSelect] = useSoundEffect("/sounds/select.wav", { volume: 0.5 });
   const headingLines = heading.split("\n");
 
   return (
@@ -54,15 +58,18 @@ export function Contact({
 
         <BlurFade delay={0.4}>
           <div className="mt-10 flex flex-col items-center gap-4">
-            <a href={`mailto:${email}`}>
-              <ShimmerButton>
-                <Mail className="h-4 w-4" />
-                Say Hello
-              </ShimmerButton>
-            </a>
+            <ShimmerButton
+              onClick={() => {
+                window.location.href = `mailto:${email}`;
+              }}
+            >
+              <Mail className="h-4 w-4" />
+              Say Hello
+            </ShimmerButton>
 
             <a
               href={`mailto:${email}`}
+              onClick={() => playClick()}
               className="group flex items-center gap-1.5 text-sm text-text-muted transition-colors hover:text-pink-400"
             >
               {email}
@@ -80,6 +87,8 @@ export function Contact({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.label}
+                onMouseEnter={() => playHover()}
+                onClick={() => playSelect()}
                 className="flex h-9 w-9 items-center justify-center rounded-xl border border-transparent text-text-muted transition-all duration-200 hover:border-pink-200 hover:bg-pink-50 hover:text-pink-400 hover:-translate-y-0.5"
               >
                 <SocialIcon name={link.icon} size={18} />

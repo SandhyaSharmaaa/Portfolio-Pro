@@ -76,7 +76,7 @@ function ProjectCard({
 }
 
 export function Projects({ projects }: { projects: Project[] }) {
-  const [playHover] = useSoundEffect("/sounds/hover.wav", { volume: 0.25 });
+  const [playHover] = useSoundEffect("/sounds/hover-card.wav", { volume: 0.3 });
 
   return (
     <Section

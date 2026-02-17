@@ -60,14 +60,14 @@ interface NavbarLinkProps {
 }
 
 function NavbarLink({ href, children, active, className }: NavbarLinkProps) {
-  const [playHover] = useSoundEffect("/sounds/hover.wav", { volume: 0.3 });
-  const [playTick] = useSoundEffect("/sounds/tick.wav", { volume: 0.4 });
+  const [playHover] = useSoundEffect("/sounds/tap-hover.wav", { volume: 0.7 });
+  const [playSelect] = useSoundEffect("/sounds/select.wav", { volume: 0.5 });
 
   return (
     <a
       href={href}
       onMouseEnter={() => playHover()}
-      onClick={() => playTick()}
+      onClick={() => playSelect()}
       className={cn(
         "relative rounded-xl px-3.5 py-2 text-[13px] font-medium transition-all duration-200",
         active ? "text-pink-500" : "text-text-muted hover:text-text-primary",
@@ -139,9 +139,9 @@ interface NavbarMobileProps {
 function NavbarMobile({ links, activeSection }: NavbarMobileProps) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [playSwitchOn] = useSoundEffect("/sounds/switch-on.wav", { volume: 0.4 });
-  const [playSwitchOff] = useSoundEffect("/sounds/switch-off.wav", { volume: 0.4 });
-  const [playTick] = useSoundEffect("/sounds/tick.wav", { volume: 0.4 });
+  const [playOpen] = useSoundEffect("/sounds/transition-up.wav", { volume: 0.5 });
+  const [playClose] = useSoundEffect("/sounds/transition-down.wav", { volume: 0.5 });
+  const [playSelect] = useSoundEffect("/sounds/select.wav", { volume: 0.4 });
 
   useEffect(() => setMounted(true), []);
 
@@ -188,7 +188,7 @@ function NavbarMobile({ links, activeSection }: NavbarMobileProps) {
             {/* Close button */}
             <motion.button
               onClick={() => {
-                playSwitchOff();
+                playClose();
                 setOpen(false);
               }}
               aria-label="Close menu"
@@ -212,7 +212,7 @@ function NavbarMobile({ links, activeSection }: NavbarMobileProps) {
                     key={link.href}
                     href={link.href}
                     onClick={() => {
-                      playTick();
+                      playSelect();
                       setOpen(false);
                     }}
                     initial={{ opacity: 0, x: -40 }}
@@ -296,8 +296,8 @@ function NavbarMobile({ links, activeSection }: NavbarMobileProps) {
       <button
         onClick={() => {
           setOpen((v) => {
-            if (!v) playSwitchOn();
-            else playSwitchOff();
+            if (!v) playOpen();
+            else playClose();
             return !v;
           });
         }}

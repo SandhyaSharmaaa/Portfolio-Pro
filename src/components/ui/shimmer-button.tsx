@@ -25,10 +25,12 @@ export function ShimmerButton({
   onClick,
   ...props
 }: ShimmerButtonProps) {
-  const [playPop] = useSoundEffect("/sounds/pop.wav", { volume: 0.5 });
+  const [playPop] = useSoundEffect("/sounds/button.wav", { volume: 0.5 });
+  const [playHover] = useSoundEffect("/sounds/tap-hover.wav", { volume: 0.7 });
 
   return (
     <button
+      onMouseEnter={() => playHover()}
       onClick={(e) => {
         playPop();
         onClick?.(e);

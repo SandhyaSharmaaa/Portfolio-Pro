@@ -1,18 +1,29 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Sparkles } from "lucide-react";
 import { useLoading } from "@/hooks/use-loading";
+import { useSoundEffect } from "@/hooks/use-sound-effect";
 
 export function LoadingScreen() {
   const { isLoading, onComplete } = useLoading();
+  const [playEntrance] = useSoundEffect("/sounds/notification.wav", { volume: 0.4 });
+  const hasPlayed = useRef(false);
 
   useEffect(() => {
     if (!isLoading) return;
     const timer = setTimeout(onComplete, 2800);
     return () => clearTimeout(timer);
   }, [isLoading, onComplete]);
+
+  // Play entrance sound once when loading finishes
+  useEffect(() => {
+    if (!isLoading && !hasPlayed.current) {
+      hasPlayed.current = true;
+      playEntrance();
+    }
+  }, [isLoading, playEntrance]);
 
   return (
     <AnimatePresence>

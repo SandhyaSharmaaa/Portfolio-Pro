@@ -7,12 +7,12 @@ import { cn } from "@/lib/utils";
 
 export function SoundToggle() {
   const { soundEnabled, toggleSound } = useSoundContext();
-  const [playSwitchOn] = useSoundEffect("/sounds/switch-on.wav", {
-    volume: 0.4,
+  const [playSwitchOn] = useSoundEffect("/sounds/toggle-on.wav", {
+    volume: 0.5,
     forceSoundEnabled: true,
   });
-  const [playSwitchOff] = useSoundEffect("/sounds/switch-off.wav", {
-    volume: 0.4,
+  const [playSwitchOff] = useSoundEffect("/sounds/toggle-off.wav", {
+    volume: 0.5,
     forceSoundEnabled: true,
   });
 

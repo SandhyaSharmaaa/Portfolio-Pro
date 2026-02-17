@@ -27,8 +27,10 @@ export function Hero({
   resumeUrl,
   socialLinks,
 }: HeroProps) {
-  const [playPop] = useSoundEffect("/sounds/pop.wav", { volume: 0.4 });
-  const [playTick] = useSoundEffect("/sounds/tick.wav", { volume: 0.3 });
+  const [playButton] = useSoundEffect("/sounds/button.wav", { volume: 0.5 });
+  const [playHover] = useSoundEffect("/sounds/tap-hover.wav", { volume: 0.7 });
+  const [playSelect] = useSoundEffect("/sounds/select.wav", { volume: 0.5 });
+  const [playDock] = useSoundEffect("/sounds/tap-dock.wav", { volume: 0.7 });
 
   return (
     <section
@@ -110,7 +112,8 @@ export function Hero({
               href={resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => playPop()}
+              onMouseEnter={() => playHover()}
+              onClick={() => playButton()}
               className="flex items-center gap-2 rounded-full border border-border-pink px-6 py-3 text-sm font-medium text-text-secondary transition-all duration-200 hover:border-pink-400 hover:text-pink-500"
             >
               Resume
@@ -194,7 +197,7 @@ export function Hero({
           initial="hidden"
           animate="visible"
         >
-          <Dock magnification={50} distance={120} onIconHover={playTick}>
+          <Dock magnification={50} distance={120} onIconHover={playDock}>
             {socialLinks.map((link) => (
               <a
                 key={link.platform}
@@ -202,6 +205,7 @@ export function Hero({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.label}
+                onClick={() => playSelect()}
                 className="flex h-full w-full items-center justify-center rounded-full text-text-secondary transition-colors hover:text-pink-400"
               >
                 <SocialIcon name={link.icon} />

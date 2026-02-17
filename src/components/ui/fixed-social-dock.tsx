@@ -9,7 +9,8 @@ import type { SocialLink } from "@/lib/types";
 
 export function FixedSocialDock({ links }: { links: SocialLink[] }) {
   const [visible, setVisible] = useState(false);
-  const [playTick] = useSoundEffect("/sounds/tick.wav", { volume: 0.3 });
+  const [playTick] = useSoundEffect("/sounds/tap-dock.wav", { volume: 0.7 });
+  const [playSelect] = useSoundEffect("/sounds/select.wav", { volume: 0.5 });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,6 +47,7 @@ export function FixedSocialDock({ links }: { links: SocialLink[] }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.label}
+                onClick={() => playSelect()}
                 className="flex h-full w-full items-center justify-center rounded-full text-text-muted transition-colors hover:text-pink-500"
               >
                 <SocialIcon name={link.icon} size={18} />
