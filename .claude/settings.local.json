@@ -32,7 +32,28 @@
       "Bash(pnpm lint:*)",
       "mcp__ide__getDiagnostics",
       "Bash(git status:*)",
-      "Bash(git config:*)"
+      "Bash(git config:*)",
+      "Bash(git filter-branch:*)",
+      "WebFetch(domain:www.buildwithmatija.com)",
+      "Bash(pnpm seed:*)",
+      "Bash(node:*)",
+      "Bash(git stash:*)",
+      "Bash(FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch:*)",
+      "Bash(git update-ref:*)",
+      "Bash(git reflog expire:*)",
+      "Bash(git gc:*)",
+      "Bash(git push:*)",
+      "WebFetch(domain:v3.magicui.design)",
+      "WebFetch(domain:freesound.org)",
+      "WebFetch(domain:mixkit.co)",
+      "WebFetch(domain:sonniss.com)",
+      "WebFetch(domain:pixabay.com)",
+      "Bash(powershell.exe -Command \"Get-ChildItem -Path ''public/music'' -Force\")",
+      "Bash(npm info:*)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(head:*)",
+      "Bash(cd \"C:/Users/001ch/OneDrive/Desktop/projects/s-site\" && pnpm tsx src/scripts/seed.ts 2>&1)",
+      "WebFetch(domain:vercel.com)"
     ]
   }
 }
