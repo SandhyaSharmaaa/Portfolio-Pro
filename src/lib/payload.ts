@@ -49,3 +49,18 @@ export async function getSkills() {
   });
   return result.docs;
 }
+
+export async function getMusicSettings() {
+  const payload = await getPayloadClient();
+  return payload.findGlobal({ slug: "music-settings" });
+}
+
+export async function getMusicTracks() {
+  const payload = await getPayloadClient();
+  const result = await payload.find({
+    collection: "music-tracks",
+    sort: "order",
+    limit: 100,
+  });
+  return result.docs;
+}

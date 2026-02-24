@@ -5,6 +5,8 @@ import { LoadingScreen } from "@/components/shared/loading-screen";
 import { LazyCursor } from "@/components/ui/lazy-cursor";
 import { SoundProvider } from "@/contexts/sound-context";
 import { SoundToggle } from "@/components/ui/sound-toggle";
+import { MusicPlayer } from "@/components/ui/music-player";
+import { getMusicSettings, getMusicTracks } from "@/lib/payload";
 import "@/styles/globals.css";
 
 const outfit = Outfit({
@@ -122,11 +124,26 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function SiteLayout({
+export default async function SiteLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [settings, trackDocs] = await Promise.all([
+    getMusicSettings(),
+    getMusicTracks(),
+  ]);
+
+  const musicConfig = {
+    enabled: settings.enabled ?? true,
+    autoplay: settings.autoplay ?? false,
+    volume: settings.volume ?? 0.15,
+    tracks: trackDocs.map((doc) => ({
+      url: (doc.externalUrl as string) || `/music/${doc.filename}`,
+      title: (doc.title as string) || (doc.filename as string),
+    })),
+  };
+
   return (
     <html lang="en">
       <head>
@@ -145,6 +162,7 @@ export default function SiteLayout({
             <LoadingScreen />
             {children}
           </SmoothScroll>
+          <MusicPlayer config={musicConfig} />
           <SoundToggle />
         </SoundProvider>
       </body>

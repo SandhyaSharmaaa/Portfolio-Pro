@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
@@ -417,6 +419,55 @@ async function seed() {
     },
   });
   console.log("Navigation seeded");
+
+  // ── Seed Music Settings ──
+  await payload.updateGlobal({
+    slug: "music-settings",
+    data: {
+      enabled: true,
+      autoplay: false,
+      volume: 0.15,
+    },
+  });
+  console.log("Music settings seeded");
+
+  // ── Seed Music Tracks ──
+  const existingTracks = await payload.find({ collection: "music-tracks", limit: 1 });
+  if (existingTracks.totalDocs === 0) {
+    const musicDir = path.join(process.cwd(), "public", "music");
+    const musicFiles = [
+      { filename: "cat-dreams.mp3", title: "Cat Dreams", order: 1 },
+      { filename: "rainy-day.mp3", title: "Rainy Day", order: 2 },
+      { filename: "good-night.mp3", title: "Good Night", order: 3 },
+    ];
+
+    for (const track of musicFiles) {
+      const filePath = path.join(musicDir, track.filename);
+      if (!fs.existsSync(filePath)) {
+        console.log(`Skipping ${track.filename} (file not found)`);
+        continue;
+      }
+
+      const fileData = fs.readFileSync(filePath);
+
+      await payload.create({
+        collection: "music-tracks",
+        data: {
+          title: track.title,
+          order: track.order,
+        },
+        file: {
+          data: Buffer.from(fileData),
+          name: track.filename,
+          mimetype: "audio/mpeg",
+          size: fileData.length,
+        },
+      });
+    }
+    console.log("Music tracks seeded");
+  } else {
+    console.log("Music tracks already exist, skipping...");
+  }
 
   console.log("Seeding complete!");
   process.exit(0);

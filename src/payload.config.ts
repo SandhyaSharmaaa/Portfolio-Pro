@@ -13,6 +13,8 @@ import { Skills } from "./payload/collections/Skills";
 import { SiteSettings } from "./payload/globals/SiteSettings";
 import { SocialLinks } from "./payload/globals/SocialLinks";
 import { Navigation } from "./payload/globals/Navigation";
+import { MusicTracks } from "./payload/collections/MusicTracks";
+import { MusicSettings } from "./payload/globals/MusicSettings";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -24,8 +26,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Experiences, Projects, Skills],
-  globals: [SiteSettings, SocialLinks, Navigation],
+  collections: [Users, Media, Experiences, Projects, Skills, MusicTracks],
+  globals: [SiteSettings, SocialLinks, Navigation, MusicSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
