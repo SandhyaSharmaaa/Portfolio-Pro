@@ -59,8 +59,8 @@ export function CustomCursor() {
   const isDesktop = useSyncExternalStore(subscribe, getIsDesktop, () => false);
   const cursorX = useMotionValue(0);
   const cursorY = useMotionValue(0);
-  const springX = useSpring(cursorX, { damping: 30, stiffness: 400, mass: 0.2 });
-  const springY = useSpring(cursorY, { damping: 30, stiffness: 400, mass: 0.2 });
+  const springX = useSpring(cursorX, { damping: 40, stiffness: 800, mass: 0.1 });
+  const springY = useSpring(cursorY, { damping: 40, stiffness: 800, mass: 0.1 });
   const containerRef = useRef<HTMLDivElement>(null);
   const dotElRef = useRef<HTMLDivElement>(null);
   const imageElRef = useRef<HTMLImageElement>(null);
